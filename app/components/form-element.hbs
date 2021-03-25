@@ -1,0 +1,202 @@
+{{!-- {{yield}} --}}
+<div class="card">
+    <div class="card-content">
+        <form action="" onsubmit={{this.submit}} id="theform">
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="formatype" id="custom" {{on "click" (fn this.toggleCustom true)}}>
+                    Custom
+                </label>
+                <label class="radio">
+                    <input type="radio" name="formatype" id="ui" {{on "click" (fn this.toggleCustom false)}}>
+                    UI
+                </label>
+            </div>
+            {{#each this.fields as |field i|}}
+            <div>
+                {{!-- {{log this}} --}}
+                <div class="field">
+                    <label class="label is-small">{{i}}</label>
+                    <div class="control">
+                        <input class="input is-small" type="text" placeholder="Text input" id="{{i}}">
+                    </div>
+                </div>
+
+                <label class="checkbox" for="phone-check{{i}}">
+                    <input type="checkbox" id="phone-check{{i}}" {{on "click" field.togglePhone}}> Format Phone Number
+                </label>
+                {{#if field.phone}}
+                    <div class="select is-small">
+                        <select name="ph-form" id="ph-form">
+                            <option value="0">Select Option</option>
+                            <option value="1">123-456-7890</option>
+                            <option value="2">123.456.7890</option>
+                            <option value="3">(123) 456-7890</option>
+                        </select>
+                    </div>
+                {{else}}
+                    <label class="checkbox" for="nthword-check{{i}}">
+                    <input type="checkbox" id="nthword-check{{i}}" {{on "click" field.toggleNthWord}}> nth Word
+                    </label>
+
+                    {{!-- {{#with (lookup field i)}} --}}
+                    {{!-- {{#if this.fields.0.nthword}} --}}
+                    {{!-- {{log i}} --}}
+                    {{!-- {{log f.i.nthword}} --}}
+                    {{!-- {{#with (lookup this.fields i)}} --}}
+                    {{#if field.nthword}}
+                    <div>
+                        <input type="number" name="nthword-index{{i}}" id="nthword-index{{i}}" class="input is-small" style="width: 10%;">
+                    </div>
+                    {{/if}}
+                    {{!-- {{/with}} --}}
+                    <label class="checkbox" for="comprehension-check{{i}}">
+                        <input type="checkbox" id="comprehension-check{{i}}" {{on "click" field.toggleComp}}> Part of the Field
+                    </label>
+                    {{#if field.comprehension}}
+                    <div>
+                        <input type="radio" name="compoption{{i}}" {{on "click" (fn field.indexrange true false)}}>
+                        Character Index
+                        {{#if field.comp_index}}
+                        <input name="index{{i}}" type="number" size="3" class="input is-small" style="width: 20%;">
+                        {{/if}}
+                        <br>
+                        <input type="radio" name="compoption{{i}}" {{on "click" (fn field.indexrange false true)}}> Range
+                        {{#if field.comp_range}}
+                        
+                        <label for="" class="label is-small">From</label>
+                        <input name="from{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                        
+                        <label for="" class="label is-small">To</label>
+                        <input name="to{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    <label class="checkbox">
+                        <input type="checkbox" id="irand{{i}}" {{on "click" field.toggleIRand}}> Random charater(s) from
+                        selection
+                    </label>
+                    {{#if field.irand}}
+                        <div>
+                            <label for="" class="label is-small">Count</label>
+                            <input name="irand_count{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                            <br>
+                            <label class="checkbox">
+                                <input type="checkbox" id="irand_range{{i}}" {{on "click" field.toggleIRandRange}}> Range
+                            </label>
+                            {{#if field.irand_range}}
+                                <label for="" class="label is-small">From</label>
+                                <input name="irand_from{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                                <label for="" class="label is-small">To</label>
+                                <input name="irand_to{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                    <label class="checkbox" for="transform-check{{i}}">
+                        <input type="checkbox" id="transform-check{{i}}" {{on "click" field.toggleTransform}}> Text
+                        Transform
+                    </label>
+                    {{#if field.transform}}
+                    <div class="field">
+                        <label class="radio">
+                            <input type="radio" name="transformopt{{i}}" value="lower"> lowercase
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="transformopt{{i}}" value="upper"> UPPERCASE
+                        </label>
+                    </div>
+                    {{/if}}
+                    <label class="checkbox" for="arand{{i}}">
+                        <input type="checkbox" id="arand{{i}}" {{on "click" field.toggleARand}}> Add Random Characters to Selection
+                    </label>
+                    {{#if field.arand}}
+                        <div class="field">
+                            <label class="radio">
+                                <input type="radio" name="arandpos{{i}}" value="b"> Before Field
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="arandpos{{i}}" value="a"> After Field
+                            </label>
+                            <div class="select is-small">
+                                <select name="rand-class{{i}}" id="rand-class{{i}}">
+                                    <option value="any">Any Character</option>
+                                    <option value="num">Numbers</option>
+                                    <option value="alpha">Alphabets</option>
+                                    <option value="vow">Vowels</option>
+                                    <option value="cons">Consonents</option>
+                                </select>
+                            </div>
+                            <label for="" class="label is-small">Random Char Count</label>
+                            <input name="arand_count{{i}}" id="arand_count{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                        </div>
+                    {{/if}}
+                    <label class="checkbox" for="rem{{i}}">
+                        <input type="checkbox" id="rem{{i}}" {{on "click" field.toggleRem}}> Remove Chars from Selection
+                    </label>
+                    {{#if field.rem}}
+                        <div class="field">
+                            <label class="radio">
+                                <input type="radio" name="rem_sec{{i}}" value="range" {{on "click" (fn field.toggleRemRangeStr true false)}}> Range
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="rem_sec{{i}}" value="str" {{on "click" (fn field.toggleRemRangeStr false true)}}> String
+                            </label>
+                            {{#if field.rem_range}}
+                                <label for="" class="label is-small">From</label>
+                                <input name="rem_from{{i}}" id="rem_from{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                                <label for="" class="label is-small">To</label>
+                                <input name="rem_to{{i}}" id="rem_to{{i}}" type="number" size="3" class="input is-small" style="width: 10%;">
+                            {{/if}}
+                            {{#if field.rem_str}}
+                                <input class="input is-small" name="rem_str" id="rem_str" type="text" placeholder="Text input" id="rem_str" style="width: 25%;">
+                            {{/if}}
+                            <br>
+                            <label class="checkbox">
+                                <input type="checkbox" name="repl{{i}}" value="" {{on "click" field.toggleRepl}}> Replace Substitute
+                            </label>
+                            {{#if field.repl}}
+                                <input class="input is-small" name="repl_str" id="repl_str" type="text" placeholder="Text input" id="repl_str" style="width: 25%;">
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                    <label class="checkbox" for="acr{{i}}">
+                        <input type="checkbox" id="acr{{i}}" {{on "click" field.toggleAcr}}> Acronymize
+                    </label>
+                    {{#if field.acr}}
+                        <label for="acr_sep{{i}}" class="label is-small">Acronym Separator</label>
+                        <input name="acr_sep{{i}}" id="acr_sep{{i}}" type="text" size="3" class="input is-small" style="width: 10%;">
+                    {{/if}}
+                    <label class="checkbox" for="clean{{i}}">
+                        <input type="checkbox" id="clean{{i}}" {{on "click" field.toggleClean}}> Clean (Only alphabets)
+                    </label>
+                {{/if}}
+                <br>
+                <div class="field" style="margin-bottom: 0.75rem;">
+                    <label for="separator{{i}}" class="label is-small">Separator</label>
+                    <div class="control">
+                        <input type="text" class="input is-small" id="separator{{i}}" style="width: 10%;">
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            {{!-- {{this.i}} --}}
+            {{#if this.custom}}
+            <div class="field">
+                <label class="label is-small">Format</label>
+                <div class="control">
+                    <input class="input is-small" type="text" placeholder="Text input" id="format" name="format" style="font-family: monospace;">
+                </div>
+            </div>
+            {{/if}}
+            <input type="submit" name="submit" id="submit" value="Format" class="button is-primary" {{on "submit" this.submit preventDefault=True}}>
+            <button type="button" class="button is-primary" {{on "click" this.addField}} style="float: right;">Add
+                Field</button>
+            {{#if this.morefields}}
+            <button type="button" class="button is-danger" {{on "click" this.removefield}}
+                style="float: right; margin-right: 5px;">Remove Field</button>
+            {{/if}}
+        </form>
+        <br>
+        Result: {{this.result}}
+    </div>
+</div>
